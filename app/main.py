@@ -106,7 +106,7 @@ def on_startup():
     create_images_dir()
 
 
-@app.post("/album/{album_id}", response_model=ImagePublic)
+@app.post("/images/album/{album_id}", response_model=ImagePublic)
 async def create_image(
     album_id: int, img_upload: fastapi.UploadFile, session: SessionDep
 ):
@@ -123,7 +123,7 @@ async def create_image(
         img_upload: an image with filename metadata
 
     Returns:
-        the image's id
+        the image's row data in the database
     """
     # Validate file's media type.
     try:
@@ -162,6 +162,21 @@ async def create_image(
     return new_image
 
 
+@app.get("/images/{image_id}", response_class=fastapi.responses.FileResponse)
+async def get_image(image_id: int, session: SessionDep):
+    """Retrieves an image file with the given id."""
+    image = session.get(Image, image_id)
+    if not image:
+        raise fastapi.HTTPException(status_code=404, detail="Image not found")
+
+    # Get file extension for media type.
+    file_ext = image.filepath.split(".")[-1]
+
+    return fastapi.responses.FileResponse(
+        image.filepath, media_type=f"image/{file_ext}"
+    )
+
+
 @app.delete("/images/{image_id}")
 async def delete_image(image_id: int, session: SessionDep) -> dict[str, bool]:
     """Deletes the image with the given ID from the database.
@@ -184,7 +199,7 @@ async def delete_image(image_id: int, session: SessionDep) -> dict[str, bool]:
     return {"ok": True}
 
 
-@app.get("/album/{album_id}", response_model=list[ImagePublic])
+@app.get("/images/album/{album_id}", response_model=list[ImagePublic])
 async def get_album(album_id: int, session: SessionDep) -> list[ImagePublic]:
     """Returns all the images in the album along with their IDs.
 
@@ -198,7 +213,7 @@ async def get_album(album_id: int, session: SessionDep) -> list[ImagePublic]:
 
 
 @app.get(
-    "/starred/{album_id}",
+    "/images/album/{album_id}/starred",
     response_class=fastapi.responses.FileResponse,
 )
 async def get_starred(album_id: int, session: SessionDep):
@@ -224,7 +239,7 @@ async def get_starred(album_id: int, session: SessionDep):
     )
 
 
-@app.patch("/starred/{album_id}")
+@app.patch("/images/album/{album_id}/starred")
 async def set_starred(album_id: int, image_id: int, session: SessionDep):
     """Stars the image with the given id for the album.
 
