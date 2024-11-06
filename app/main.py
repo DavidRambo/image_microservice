@@ -176,7 +176,7 @@ async def get_image(image_id: int, session: SessionDep):
 
 
 @app.delete("/images/{image_id}", status_code=204)
-async def delete_image(image_id: int, session: SessionDep) -> dict[str, bool]:
+async def delete_image(image_id: int, session: SessionDep):
     """Deletes the image with the given ID from the database.
 
     Args:
@@ -194,7 +194,6 @@ async def delete_image(image_id: int, session: SessionDep) -> dict[str, bool]:
         raise fastapi.HTTPException(status_code=404, detail="Image not found")
     session.delete(image)
     session.commit()
-    return {"ok": True}
 
 
 @app.get("/images/album/{album_id}", response_model=list[ImagePublic])
