@@ -104,7 +104,7 @@ def on_startup():
     create_images_dir()
 
 
-@app.post("/images/album/{album_id}", response_model=ImagePublic)
+@app.post("/images/album/{album_id}", response_model=ImagePublic, status_code=201)
 async def create_image(
     album_id: int, img_upload: fastapi.UploadFile, session: SessionDep
 ):
@@ -175,7 +175,7 @@ async def get_image(image_id: int, session: SessionDep):
     )
 
 
-@app.delete("/images/{image_id}")
+@app.delete("/images/{image_id}", status_code=204)
 async def delete_image(image_id: int, session: SessionDep) -> dict[str, bool]:
     """Deletes the image with the given ID from the database.
 
@@ -237,8 +237,8 @@ async def get_starred(album_id: int, session: SessionDep):
     )
 
 
-@app.patch("/images/album/{album_id}/starred")
-async def set_starred(album_id: int, image_id: int, session: SessionDep):
+@app.patch("/images/album/{album_id}/starred", status_code=204)
+async def update_starred(album_id: int, image_id: int, session: SessionDep):
     """Stars the image with the given id for the album.
 
     Args:
