@@ -267,3 +267,5 @@ async def update_starred(album_id: int, image_id: int, session: SessionDep):
     # Commit changes to database.
     session.commit()
     session.refresh(image)
+
+    return {"ok": True}
