@@ -4,17 +4,15 @@ Images are organized into albums.
 Each album has associated with it a "starred" or "favorited" image.
 """
 
-import secrets
 import os
+import secrets
 from typing import Annotated
 
 import fastapi
-
 import sqlalchemy
 import sqlmodel
-from sqlmodel import SQLModel, Field
-
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import Field, SQLModel
 
 IMAGES_DIR = "./images"
 
