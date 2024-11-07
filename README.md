@@ -45,6 +45,13 @@ A row comprises a primary key `id`, an `album` identifier, whether the image is 
 
 - [x] DELETE endpoint
 - [x] Basic usage documentation
+- [ ] Document endpoints
+  - [ ] create image
+  - [ ] delete image
+  - [ ] get image
+  - [ ] get album's starred image
+  - [ ] get IDs for all images in an album
+  - [ ] update which image is starred in an album
 - [ ] Modularize `main.py`
 - [ ] Check path operation function signatures
 - [ ] Assess error handling
