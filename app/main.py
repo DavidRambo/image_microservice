@@ -127,8 +127,8 @@ async def create_image(
     try:
         if not img_upload.content_type.startswith("image"):
             raise fastapi.HTTPException(status_code=406, detail="Invalid file type")
-    except Exception:
-        raise fastapi.HTTPException(status_code=400, detail="Invalid upload")
+    except Exception as err:
+        raise fastapi.HTTPException(status_code=400, detail=f"Invalid upload: {err}")
 
     # Generate filename from a hash of the file.
     file_ext: str = img_upload.content_type.split("/")[1]
