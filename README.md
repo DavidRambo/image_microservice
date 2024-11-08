@@ -6,8 +6,15 @@ Currently this is only intended for running locally.
 
 ## Setup
 
-Create and activate a virtual environment and then install the dependencies listed in `pyproject.toml`.
-With specific library versions specified in `uv.lock`, you can use [uv](https://docs.astral.sh/uv/guides/projects/) to install them:
+Create and activate a virtual environment and then install the dependencies.
+There are different options to do so, as the dependencies are listed in `pyproject.toml`, `requirements.txt`, and `uv.lock`.
+With pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+With [uv](https://docs.astral.sh/uv/guides/projects/):
 
 ```bash
 uv sync
@@ -16,7 +23,6 @@ uv sync
 Next, ensure the listed CORS URLs include the address of whatever client you'll be using to send requests.
 These are listed as `str`s in `origins` in `app/main.py` and added to the app's middleware (look for the `app.add_middleware()` function call).
 
-That's it!
 The app uses sqlite, which is part of Python's standard library, so the database will be taken care of by a setup script.
 
 ## Usage
@@ -29,6 +35,10 @@ fastapi run app/main.py
 
 By default, fastapi runs on localhost port 8000.
 The port can be set by passing `--port <PORT>` to the above command.
+
+### Sequence Diagram
+
+### Communication Contract
 
 ### OpenAI Docs and Manual Testing
 
@@ -44,7 +54,7 @@ A row comprises a primary key `id`, an `album` identifier, whether the image is 
 ## TODO:
 
 - [x] DELETE endpoint
-- [x] Basic usage documentation
+- [x] Setup documentation
 - [ ] Document endpoints
   - [ ] create image
   - [ ] delete image
@@ -52,6 +62,16 @@ A row comprises a primary key `id`, an `album` identifier, whether the image is 
   - [ ] get album's starred image
   - [ ] get IDs for all images in an album
   - [ ] update which image is starred in an album
+- [ ] UML diagrams
+  - [ ] create image
+  - [ ] delete image
+  - [ ] get image
+  - [ ] get album's starred image
+  - [ ] get IDs for all images in an album
+  - [ ] update which image is starred in an album
+
+### If there's time
+
 - [ ] Modularize `main.py`
 - [ ] Check path operation function signatures
 - [ ] Assess error handling
