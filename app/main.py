@@ -14,7 +14,8 @@ import sqlmodel
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, SQLModel
 
-IMAGES_DIR = "./images"
+BASE_DIR = os.path.abspath(os.path.dirname(__name__))
+IMAGES_DIR = os.path.join(BASE_DIR, "images")
 
 
 class ImageBase(SQLModel):
@@ -50,8 +51,8 @@ class ImageUpdate(ImageBase):
     starred: bool = Field(default=False, index=False)
 
 
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+SQLITE_FILE_NAME = "database.db"
+sqlite_url = "sqlite:///" + os.path.join(BASE_DIR, SQLITE_FILE_NAME)
 
 connect_args = {"check_same_thread": False}
 engine = sqlmodel.create_engine(sqlite_url, connect_args=connect_args)
