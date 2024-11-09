@@ -40,6 +40,126 @@ The port can be set by passing `--port <PORT>` to the above command.
 
 ### Communication Contract
 
+#### A Note on Albums
+
+The app stores and serves image files.
+These images are associated with an album, which is identified by an integer.
+_Albums must be specified by the client._
+In other words, the app expects a client to decide which integer to associate with which album as well as to store this information.
+
+#### Adding an image
+
+To upload an image, use the following path and submit the image file as part of a multipart/form-data body with the key `img_upload`.
+The API does not discriminate image formats.
+It will save any file with a content-type that is an image, such as `image/jpeg` and `image/png`.
+
+**Request**:
+
+- Status code: 201
+- method: `POST`
+- path: `/images/album/<album_id>`
+- body: `multipart/form-data`
+  - `img_upload`: content-type: `image/<jpeg|jpg|png|...>`
+
+**Response**:
+
+- Status code: 200
+- application/json
+- `ImagePublic` schema:
+  - "album": integer
+  - "starred": boolean
+  - "id": int
+
+The response provides the publically available data for the image uploaded.
+
+#### Get all Image data in an album
+
+To retrieve the `ImagePublic` entries for images associated with a particular album:
+
+**Request**:
+
+- method: `GET`
+- path: `/images/album/<album_id>`
+
+**Response**:
+
+- application/json
+- JSON array of ImagePublic schema:
+
+```json
+[
+  {
+    "album": 1,
+    "starred": false,
+    "id": 1
+  },
+  {
+    "album": 1,
+    "starred": true,
+    "id": 2
+  }
+]
+```
+
+#### Retrieve an image file
+
+Images can be retrieved by their `id`, which is the primary key in their SQL database.
+
+**Request**:
+
+- method: `GET`
+- path: `/images/<image_id>`
+
+**Response**:
+
+- Status code: 200
+- body: an image file
+  - `accept-ranges: bytes`
+  - `content-type: image/<jpeg|png|...>`
+
+#### Delete an image
+
+An image may be deleted from the server by passing its `id` as a path parameter.
+
+**Request**:
+
+- method: `DELETE`
+- path: `/images/<image_id>`
+
+**Response**:
+
+- Status code: 204
+
+#### Get the starred image in an album
+
+To retrieve the image file associated with an album, submit the album `id` as a path parameter.
+
+**Request**:
+
+- method: `GET`
+- path: `/images/album/<album_id>/starred`
+
+**Response**:
+
+- Status code: 200
+- body: an image file
+  - `accept-ranges: bytes`
+  - `content-type: image/<jpeg|png|...>`
+
+#### Star an image in an album
+
+To change which image is starred in an album, both the album `id` and the image `id` must be provided.
+
+**Request**:
+
+- method: `PATCH`
+- path: `/images/album/{album_id}/starred`
+- query parameter: `image_id`
+
+**Response**:
+
+- Status code: 204
+
 ### OpenAPI Docs and Manual Testing
 
 To view the automated documentation and try out endpoints, add `/docs` to the URL in your browser.
@@ -55,13 +175,13 @@ A row comprises a primary key `id`, an `album` identifier, whether the image is 
 
 - [x] DELETE endpoint
 - [x] Setup documentation
-- [ ] Document endpoints
-  - [ ] create image
-  - [ ] delete image
-  - [ ] get image
-  - [ ] get album's starred image
-  - [ ] get IDs for all images in an album
-  - [ ] update which image is starred in an album
+- [x] Document endpoints
+  - [x] create image
+  - [x] delete image
+  - [x] get image
+  - [x] get album's starred image
+  - [x] get IDs for all images in an album
+  - [x] update which image is starred in an album
 - [ ] UML diagrams
   - [ ] create image
   - [ ] delete image
