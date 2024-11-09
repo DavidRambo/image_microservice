@@ -192,6 +192,9 @@ async def delete_image(image_id: int, session: SessionDep):
     image = session.get(Image, image_id)
     if not image:
         raise fastapi.HTTPException(status_code=404, detail="Image not found")
+
+    os.remove(image.filepath)
+
     session.delete(image)
     session.commit()
 
