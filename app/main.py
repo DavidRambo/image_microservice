@@ -118,7 +118,7 @@ async def create_image(
 
     Args:
         album_id: identification of the album with which to associate the image
-        img_upload: an image with filename metadata
+        img_upload: an image file
 
     Returns:
         the image's row data in the database
