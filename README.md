@@ -40,7 +40,7 @@ The port can be set by passing `--port <PORT>` to the above command.
 
 ### Communication Contract
 
-### OpenAI Docs and Manual Testing
+### OpenAPI Docs and Manual Testing
 
 To view the automated documentation and try out endpoints, add `/docs` to the URL in your browser.
 
