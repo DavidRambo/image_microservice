@@ -245,7 +245,7 @@ sequenceDiagram
   - [x] get album's starred image
   - [x] get IDs for all images in an album
   - [x] update which image is starred in an album
-- [ ] UML diagrams
+- [x] UML diagrams
   - [x] create image
   - [x] delete image
   - [x] get image
@@ -256,7 +256,6 @@ sequenceDiagram
 ### If there's time
 
 - [ ] Modularize `main.py`
-- [ ] Check path operation function signatures
 - [ ] Assess error handling
 - [ ] Tests
 - [ ] Move startup functions into an Alembic migration script.
