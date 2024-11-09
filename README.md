@@ -171,6 +171,69 @@ This directory is created upon startup if necessary.
 A SQLite database is used to store data related to the images.
 A row comprises a primary key `id`, an `album` identifier, whether the image is `starred` for its album, and a `filepath` to reference the file.
 
+### POST a new image
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: POST: /images/album/<album_id>
+    Image Server->>+Image Model: create_image
+    Image Model->>+images/: write image file to disk
+    Image Server-->>-Client: 201 (JSON ImagePublic)
+```
+
+### DELETE an image
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: DELETE: /images/<image_id>
+    Image Server->>+Image Model: delete_image
+    Image Model->>+images/: delete image file from disk
+    Image Server-->>-Client: 204
+```
+
+### GET an image
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: GET: /images/<image_id>
+    Image Server->>+Image Model: get_image
+    Image Model -->>-Image Server: Image row data
+    Image Server->>+images/: create resopnse with image file from disk
+    Image Server-->>-Client: 200 (image media)
+```
+
+### GET an album's starred image
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: GET: /images/album/<album_id>/starred
+    Image Server->>+Image Model: get_starred
+    Image Model -->>-Image Server: Image row data
+    Image Server->>+images/: create resopnse with image file from disk
+    Image Server-->>-Client: 200 (image media)
+```
+
+### GET all ImagePublic entries in an album
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: GET: /images/album/<album_id>
+    Image Server->>+Image Model: get_album
+    Image Model -->>-Image Server: Image row data
+    Image Server-->>-Client: 200 (JSON array of ImagePublic data)
+```
+
+### PATCH an image to be starred in an album
+
+```mermaid
+sequenceDiagram
+    Client->>+Image Server: PATCH: /images/album/<album_id>/starred?image_id=<image_id>
+    Image Server->>+Image Model: update_starred
+    Image Model -->>-Image Server: Image row data
+    Image Server->>+Image Model: change which Image row is starred
+    Image Server-->>-Client: 204
+```
+
 ## TODO:
 
 - [x] DELETE endpoint
@@ -183,12 +246,12 @@ A row comprises a primary key `id`, an `album` identifier, whether the image is 
   - [x] get IDs for all images in an album
   - [x] update which image is starred in an album
 - [ ] UML diagrams
-  - [ ] create image
-  - [ ] delete image
-  - [ ] get image
-  - [ ] get album's starred image
-  - [ ] get IDs for all images in an album
-  - [ ] update which image is starred in an album
+  - [x] create image
+  - [x] delete image
+  - [x] get image
+  - [x] get album's starred image
+  - [x] get IDs for all images in an album
+  - [x] update which image is starred in an album
 
 ### If there's time
 
