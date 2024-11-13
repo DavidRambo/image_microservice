@@ -178,6 +178,7 @@ sequenceDiagram
     Client->>+Image Server: POST: /images/album/<album_id>
     Image Server->>+Image Model: create_image
     Image Model->>+images/: write image file to disk
+    Image Model -->>-Image Server: Image row data
     Image Server-->>-Client: 201 (JSON ImagePublic)
 ```
 
