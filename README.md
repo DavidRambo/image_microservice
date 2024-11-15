@@ -101,7 +101,7 @@ To retrieve the `ImagePublic` entries for images associated with a particular al
 
 #### Retrieve an image file
 
-Images can be retrieved by their `id`, which is the primary key in their SQL database.
+Images can be retrieved by their `id`, which is their primary key in the SQL database.
 
 **Request**:
 
