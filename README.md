@@ -36,8 +36,6 @@ fastapi run app/main.py
 By default, fastapi runs on localhost port 8000.
 The port can be set by passing `--port <PORT>` to the above command.
 
-### Sequence Diagram
-
 ### Communication Contract
 
 #### A Note on Albums
