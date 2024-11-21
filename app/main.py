@@ -207,9 +207,7 @@ async def get_album(album_id: int, session: SessionDep) -> list[ImagePublic]:
     Args:
         album_id: identification of the album from which to retrieve images
     """
-    images = session.exec(
-        sqlmodel.select(Image).offset(0).limit(10).where(Image.album == album_id)
-    )
+    images = session.exec(sqlmodel.select(Image).where(Image.album == album_id))
     return images
 
 
